@@ -77,7 +77,7 @@ const [paymentMethod, setPaymentMethod] = useState<string>("");
   useEffect(() => {
     const fetchTags = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:8000/api/tags/");
+        const response = await fetch(`${API_BASE_URL}/tags/`);
         if (!response.ok) throw new Error("Failed to fetch tags");
         const data: string[] = await response.json();
         setAllTags(data); // suggestions in your TagInput

@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "http://127.0.0.1:8000",
+        target: "https://ledger-backend-6i6b.onrender.com",
         changeOrigin: true,
         secure: false,
         // rewrite: (path) => path.replace(/^\/api/, "/api") // nu nevoie în cazul nostru
