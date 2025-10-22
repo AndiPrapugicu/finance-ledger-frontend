@@ -4,7 +4,7 @@ import { formatCurrency } from "../../utils";
 
 interface AccountItemProps {
   account: Account;
-  onClick?: (account: Account) => void;z
+  onClick?: (account: Account) => void;
 }
 
 export const AccountItem: React.FC<AccountItemProps> = ({

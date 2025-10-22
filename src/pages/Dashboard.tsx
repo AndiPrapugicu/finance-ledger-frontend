@@ -5,7 +5,6 @@ import {
   User,
   Car,
   BarChart3,
-  FileSpreadsheet,
   Settings,
 } from "lucide-react";
 import { NavigationSidebar } from "../components/NavigationSidebar";

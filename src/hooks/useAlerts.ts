@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { API_BASE_URL, API_ENDPOINTS } from '../constants/api';
+import { API_BASE_URL } from '../constants/api';
 
 export interface Alert {
   alertID: number;

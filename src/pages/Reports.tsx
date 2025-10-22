@@ -14,7 +14,6 @@ import { NavigationSidebar } from "../components/NavigationSidebar";
 import {
   LineChart,
   BarChart,
-  PieChart,
   DoughnutChart,
 } from "../components/charts";
 import { API_BASE_URL } from "../constants/api";

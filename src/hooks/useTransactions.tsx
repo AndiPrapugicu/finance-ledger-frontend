@@ -36,9 +36,9 @@ export const useTransactions = (): UseTransactionsReturn => {
     message: string;
     }> => { 
     try {
-      const response = await TransactionsService.createFixtures();
+  await TransactionsService.createFixtures();
       const successMessage =
-        response.message || "Sample transactions created successfully!";
+        "Sample transactions created successfully!";
         // Refresh transactions after creating fixtures
         await fetchTransactions();
         return { success: true,message: successMessage };

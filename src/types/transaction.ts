@@ -11,6 +11,8 @@ export interface Transaction {
 export interface Split{
     accountId:number;
     amount:string;
+    accountType?: string;
+    accountName?: string;
 }
 export interface CreateTransactionRequest {
     date: string;

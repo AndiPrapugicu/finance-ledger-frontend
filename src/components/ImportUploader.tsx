@@ -14,7 +14,6 @@ import { ImportService } from "../services/importService";
 export default function ImportUploader() {
   const [csvFile, setCsvFile] = useState<File | null>(null);
   const [rulesFile, setRulesFile] = useState<File | null>(null);
-  const [receiptFile, setReceiptFile] = useState<File | null>(null);
   const [message, setMessage] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const [messageType, setMessageType] = useState<"success" | "error" | "">("");
@@ -76,102 +75,6 @@ export default function ImportUploader() {
   };
 
   // Handler for receipt image input. If filename contains 'chitanta' we create mocked CSV rows and import them.
-  const handleReceiptChange = async (file: File | null) => {
-    setReceiptFile(file);
-    setMessage("");
-    setMessageType("");
-
-    if (!file) return;
-    const name = (file.name || "").toLowerCase();
-    // Only trigger mocked import for the exact demo filenames `chitanta.jfif` or `chitanta2.jfif`
-    if (name !== "chitanta.jfif" && name !== "chitanta2.jfif") {
-      setMessage("Receipt import is demo-only and only works for files named 'chitanta.jfif' or 'chitanta2.jfif'.");
-      setMessageType("error");
-      return;
-    }
-
-    // build a mocked CSV payload from the receipt
-    setLoading(true);
-    try {
-      // We'll support two mocked receipts. For the second one we optionally convert RON -> USD.
-      let csvContent: string;
-
-      if (name === "chitanta.jfif") {
-        // First mocked receipt: convert amounts from RON -> USD (expenses)
-        const convertToUSD = true;
-        const RON_TO_USD = 0.22; // same conversion rate used for chitanta2
-
-        const rows = [
-          { date: '2025-10-08', desc: 'Garantie aluminiu', amt: 0.50 },
-          { date: '2025-10-08', desc: 'Monster Golden', amt: 5.59 },
-          { date: '2025-10-08', desc: 'File Somon ATM ASC', amt: 16.99 },
-          { date: '2025-10-08', desc: 'Oua M*10 COD 2 SIMPL', amt: 10.19 },
-        ];
-
-        const header = 'date,description,amount,payee,tags';
-        const body = rows
-          .map((r) => {
-            const amount = convertToUSD ? -(Math.round((r.amt * RON_TO_USD) * 100) / 100) : -r.amt;
-            return `${r.date},${r.desc},${amount},Carrefour,other`;
-          })
-          .join('\n');
-
-        csvContent = [header, body].join('\n');
-      } else {
-        // chitanta2.jfif - newer mocked receipt
-        // Items (in RON): Garantie aluminiu 0.50, Garantie PET 0.50, PopCola Botanic 3.95, Dorna Apa Min 2.79
-        // We'll treat them as expenses (negative amounts). Optionally convert to USD.
-        const convertToUSD = true; // toggle conversion on import
-        const RON_TO_USD = 0.22; // approximate conversion rate (1 RON -> 0.22 USD)
-
-        const rows = [
-          { date: '2025-10-04', desc: 'Garantie aluminiu', amt: 0.50 },
-          { date: '2025-10-04', desc: 'Garantie PET', amt: 0.50 },
-          { date: '2025-10-04', desc: 'PopCola Botanic 0.33', amt: 3.95 },
-          { date: '2025-10-04', desc: 'Dorna Apa Min', amt: 2.79 },
-        ];
-
-        const header = 'date,description,amount,payee,tags';
-        const body = rows
-          .map((r) => {
-            const amount = convertToUSD ? -(Math.round((r.amt * RON_TO_USD) * 100) / 100) : -r.amt;
-            return `${r.date},${r.desc},${amount},Carrefour,other`;
-          })
-          .join('\n');
-
-        csvContent = [header, body].join('\n');
-      }
-
-      const blob = new Blob([csvContent], { type: "text/csv" });
-      const mockFile = new File([blob], "mock_chitanta_extracted.csv", { type: "text/csv" });
-
-      const res = await ImportService.uploadImport(mockFile, undefined, true);
-      const maybeTransactions =
-        (res && res.transactions) ||
-        (res && res.result && res.result.transactions) ||
-        null;
-      const createdCount =
-        res?.created_count ?? res?.result?.created_count ?? res?.createdCount ?? null;
-
-      if (Array.isArray(maybeTransactions) && maybeTransactions.length > 0) {
-        setImportedTransactions(maybeTransactions);
-        setMessage(`Receipt import successful: Imported ${createdCount ?? maybeTransactions.length} transactions`);
-      } else if (createdCount !== null) {
-        setImportedTransactions(null);
-        setMessage(`Receipt import successful: ${createdCount} transactions imported.`);
-      } else {
-        setImportedTransactions(null);
-        setMessage(`Receipt import successful.`);
-      }
-      setMessageType("success");
-    } catch (err: unknown) {
-      const errorMessage = err instanceof Error ? err.message : String(err);
-      setMessage(`Receipt import failed: ${errorMessage}`);
-      setMessageType("error");
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
@@ -304,7 +207,7 @@ export default function ImportUploader() {
                           <input
                             type="file"
                             accept="image/*"
-                            onChange={(e) => handleReceiptChange(e.target.files?.[0] || null)}
+                            // onChange handler for receipt import eliminat
                             className="hidden"
                           />
                           <span className="bg-yellow-600 hover:bg-yellow-500 text-black px-4 py-2 rounded-lg inline-flex items-center transition-colors">

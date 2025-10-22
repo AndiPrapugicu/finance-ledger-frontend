@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import type { Account, AccountType } from "../../types";
+import type { Account } from "../../types";
 import { groupAccountsByType } from "../../utils";
 import { ChevronDown, ChevronRight, Wallet, CreditCard, TrendingUp, TrendingDown, Landmark, BarChart3 } from "lucide-react";
 

@@ -1,4 +1,4 @@
-import React, { use } from "react";
+import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import type { LucideIcon } from "lucide-react";
 import {
@@ -11,7 +11,7 @@ import {
   Wallet,
   LogOut,
 } from "lucide-react";
-import { AuthContext } from '../contexts/AuthContext';
+
 import { useAuth } from "../hooks/useAuth";
 
 export interface NavigationItem {

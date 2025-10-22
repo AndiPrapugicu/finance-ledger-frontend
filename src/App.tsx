@@ -13,7 +13,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./contexts/AuthContext";
-import { AlertNotification } from './components/ui/AlertNotification';
+
 
 const App: React.FC = () => (
   <AuthProvider>

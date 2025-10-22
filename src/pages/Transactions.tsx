@@ -9,7 +9,7 @@ import {
   Filter,
 } from "lucide-react";
 import { NavigationSidebar } from "../components/NavigationSidebar";
-import { useTransactions, useToast, useAccounts } from "../hooks";
+import { useTransactions, useToast } from "../hooks";
 import { LoadingSpinner, ErrorAlert } from "../components";
 import TransactionForm from "../components/TransactionForm";
 
@@ -17,7 +17,7 @@ const Transactions: React.FC = () => {
   const { transactions, loading, error, refetch, createFixtures } =
     useTransactions();
   const { showToast } = useToast();
-  const { getAccountById } = useAccounts();
+
   const [showForm, setShowForm] = useState(false);
   const [filterType, setFilterType] = useState<"all" | "income" | "expense">(
     "all"

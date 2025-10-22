@@ -29,16 +29,17 @@ export const useAccounts = (): UseAccountsReturn => {
       
       // Flatten grouped accounts into a single array for backwards compatibility
       const allAccounts: Account[] = [];
-      Object.entries(groupedData.accounts).forEach(([type, accounts]: [string, any]) => {
+  Object.entries(groupedData.accounts).forEach(([_type, accounts]: [string, any]) => {
         accounts.forEach((acc: any) => {
           allAccounts.push({
             id: acc.id,
             name: acc.name,
             account_type: acc.account_type,
+            account_type_display: acc.account_type_display || acc.account_type,
+            full_name: acc.full_name || acc.name,
             balance: acc.balance,
             is_active: acc.is_active,
             parent: acc.parent_id,
-            user: 0, // Not needed from ledger
             created_at: new Date().toISOString(),
             updated_at: new Date().toISOString(),
           });
@@ -74,9 +75,9 @@ export const useAccounts = (): UseAccountsReturn => {
     message: string;
   }> => {
     try {
-      const response = await AccountsService.createFixtures();
+  await AccountsService.createFixtures();
       const successMessage =
-        response.message || "Sample accounts created successfully!";
+        "Sample accounts created successfully!";
 
       // Refresh accounts after creating fixtures
       await fetchAccounts();

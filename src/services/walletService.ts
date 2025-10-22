@@ -9,9 +9,7 @@ import type {
   AddFundsRequest,
   AddFundsResponse,
   CreatePaymentMethodRequest,
-  ApiError,
-  WalletTransferRequest,
-  WalletTransferResponse,
+  ApiError
 } from "../types";
 
 // Configure axios instance
@@ -63,12 +61,7 @@ apiClient.interceptors.response.use(
   }
 );
 
-interface PaginatedResponse<T> {
-  results: T[];
-  count: number;
-  next: string | null;
-  previous: string | null;
-}
+
 
 export class WalletService {
   /**
